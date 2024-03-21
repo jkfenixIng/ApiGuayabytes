@@ -15,10 +15,12 @@ namespace Application.Main
     {
         private readonly IConfiguration _configuration;
         private readonly ILoginRepository _loginRepository;
-        public LoginAplication(ILoginRepository _LoginRepository, IConfiguration configuration)
+        private readonly IUsersRepository _usersRepository;
+        public LoginAplication(ILoginRepository loginRepository, IConfiguration configuration, IUsersRepository usersRepository)
         {
-            _loginRepository = _LoginRepository;
+            _loginRepository = loginRepository;
             _configuration = configuration;
+            _usersRepository = usersRepository;
         }
 
 
@@ -27,7 +29,7 @@ namespace Application.Main
             var data = new ResponseDto<DataLoginDto> { Data = new DataLoginDto() };
             try
             {
-                bool existe = await _loginRepository.GetExistUser(NickName);
+                bool existe = await _usersRepository.GetExistUser(NickName);
                 if (!existe)
                 {
                     data.IsSuccess = existe;
@@ -61,12 +63,13 @@ namespace Application.Main
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Token:IssuerSigningKey"])); // Debe coincidir con la clave de configuración
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
+            int userId = await _loginRepository.GetIdUser(NickName);
             var claims = new[]
             {
-        new Claim(ClaimTypes.Name, NickName)
-        // Aquí puedes agregar más claims según sea necesario
-    };
+                new Claim(ClaimTypes.Name, NickName),
+                new Claim(ClaimTypes.Name, userId.ToString())
+                // Aquí puedes agregar más claims según sea necesario
+            };
 
             var token = new JwtSecurityToken(
                 issuer: _configuration["Token:ValidIssuer"], // Debe coincidir con el emisor de la configuración

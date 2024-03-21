@@ -12,13 +12,14 @@ namespace Domain.Repository
         {
             Context = context;
         }
-        public async Task<bool> GetExistUser(string NickName)
-        {
-            return await Context.Users.AnyAsync(u => u.NickName == NickName);
-        }
         public async Task<bool> GetCoincidenciaPassword(string NickName, string password)
         {
-            return await Context.Users.AnyAsync(u => u.NickName == NickName && u.Password == password);
+            return await Context.Users.AnyAsync(u => u.NickName.ToLower() == NickName.ToLower() && u.Password == password);
+        }
+        public async Task<int> GetIdUser(string NickName)
+        {
+            var user = await Context.Users.FirstOrDefaultAsync(u => u.NickName == NickName);
+            return user != null ? user.IdUser : -1;
         }
     }
 }

@@ -18,6 +18,6 @@ namespace Domain.Entities
 
         public string Password { get; set; }
 
-        public int? Cash { get; set; }
+        public int? Cash { get; set; } = 0;
     }
 }
