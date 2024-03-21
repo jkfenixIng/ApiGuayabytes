@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -28,9 +29,18 @@ namespace GuayaBytes.Controllers
             {
                 return Ok(ok);
             }
-            return Unauthorized();
+            return Unauthorized(ok);
         }
 
-       
+        [HttpGet("refresh")]
+        [Authorize]
+        public async Task<IActionResult> RefreshToken()
+        {
+            var updatedToken = await _loginAplication.RefreshTokenAsync(HttpContext);
+            if(updatedToken.IsSuccess) 
+                return Ok(new { token = updatedToken });
+            else
+                return BadRequest(updatedToken);
+        }
     }
 }
