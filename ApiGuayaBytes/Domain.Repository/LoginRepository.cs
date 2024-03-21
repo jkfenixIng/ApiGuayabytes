@@ -12,20 +12,13 @@ namespace Domain.Repository
         {
             Context = context;
         }
-        public async Task<bool> GetExistUser(string email)
+        public async Task<bool> GetExistUser(string NickName)
         {
-            return await Context.Users.AnyAsync(u => u.Email == email);
+            return await Context.Users.AnyAsync(u => u.NickName == NickName);
         }
-        public async Task<bool> GetCoincidenciaPassword(string email, string password)
+        public async Task<bool> GetCoincidenciaPassword(string NickName, string password)
         {
-            return await Context.Users.AnyAsync(u => u.Email == email && u.Password == password);
-        }
-        public async Task<string> GetRol(string email)
-        {
-            return await Context.Users
-                .Where(u => u.Email == email)
-                .Select(u => u.Rol)
-                .FirstOrDefaultAsync();
+            return await Context.Users.AnyAsync(u => u.NickName == NickName && u.Password == password);
         }
     }
 }
