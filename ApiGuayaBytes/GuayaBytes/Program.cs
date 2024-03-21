@@ -72,6 +72,9 @@ builder.Services.AddDbContext<DataContext>(options =>
 // Registrar servicios
 builder.Services.AddScoped<ILoginAplication, LoginAplication>();
 builder.Services.AddScoped<ILoginRepository, LoginRepository>();
+builder.Services.AddScoped<IUsersAplication, UsersAplication>();
+builder.Services.AddScoped<IUsersRepository, UsersRepository>();
+builder.Services.AddScoped<ILogsRepository, LogsRepository>();
 
 var app = builder.Build();
 

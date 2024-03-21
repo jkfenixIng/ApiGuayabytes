@@ -2,7 +2,7 @@
 {
     public interface ILoginRepository
     {      
-        Task<bool> GetExistUser(string NickName);
         Task<bool> GetCoincidenciaPassword(string NickName, string paswword);
+        Task<int> GetIdUser(string NickName);
     }
 }

@@ -19,5 +19,7 @@ namespace Domain.Data
         public DbSet<Items> Items { get; set; }
         public DbSet<ItemsCategories> ItemsCategories { get; set; }
         public DbSet<UserInventory> UserInventory { get; set; }
+        public DbSet<Acciones> Acciones { get; set; }
+        public DbSet<Logs> Logs { get; set; }
     }
 }
