@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Application.DTO
 {
-    public class DataLogin
+    public class DataLoginDto
     {
-        public string? Rol { get; set; }
+        public string? Token { get; set; }
     }
 }

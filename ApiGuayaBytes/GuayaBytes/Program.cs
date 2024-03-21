@@ -3,18 +3,67 @@ using Application.Main;
 using Domain.Data;
 using Domain.Interfaces;
 using Domain.Repository;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 // Obtener la configuración
 var configuration = builder.Configuration;
 
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = configuration["Token:ValidIssuer"], // Puedes cambiarlo a tu elección
+        ValidAudience = configuration["Token:ValidAudience"], // Puedes cambiarlo a tu elección
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Token:IssuerSigningKey"])) // Puedes cambiarlo a tu elección
+    };
+});
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Guayabytes", Version = "v1.0.0" });
+    c.UseInlineDefinitionsForEnums();
+
+    // Agregar la definición de seguridad para Swagger
+    var securitySchema = new OpenApiSecurityScheme
+    {
+        Description = "Using the Authorization header with the Bearer scheme.",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        Reference = new OpenApiReference
+        {
+            Type = ReferenceType.SecurityScheme,
+            Id = "Bearer"
+        }
+    };
+
+    c.AddSecurityDefinition("Bearer", securitySchema);
+
+    // Agregar el requerimiento de seguridad para Swagger
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        { securitySchema, new[] { "Bearer" }}
+    });
+});
 
 // Configurar DbContext
 builder.Services.AddDbContext<DataContext>(options =>
@@ -40,6 +89,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseAuthentication(); // Agregado middleware de autenticación
 app.UseAuthorization();
 app.MapControllers();
 app.Run();

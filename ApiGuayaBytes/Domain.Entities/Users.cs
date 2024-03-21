@@ -3,20 +3,21 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities
 {
-    [Table("Usuarios")]
     public class Users
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Column("Id")]
-        public int Id { get; set; }
-        [Required]
+        [Column("IdUser")]
+        public int IdUser { get; set; }
+
         public string Name { get; set; }
-        [Required]
-        public string Password { get; set; }
-        [Required]
+
+        public string NickName { get; set; }
+
         public string Email { get; set; }
-        [Required]
-        public string Rol { get; set; }
+
+        public string Password { get; set; }
+
+        public int? Cash { get; set; }
     }
 }

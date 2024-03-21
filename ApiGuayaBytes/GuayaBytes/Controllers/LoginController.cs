@@ -1,9 +1,11 @@
 using Application.Interfaces;
 using Application.Main;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ApiGuayabytes.Controllers
+namespace GuayaBytes.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class LoginController : ControllerBase
@@ -18,7 +20,7 @@ namespace ApiGuayabytes.Controllers
             _loginAplication = loginAplication;
         }
 
-        [HttpGet(Name = "GetLogin")]
+        [HttpGet("GetLogin")]
         public async Task<IActionResult> GetLogin(string email, string paswword)
         {
             var result = await _loginAplication.GetLogin(email, paswword);
