@@ -130,5 +130,89 @@ Este endpoint permite crear un nuevo usuario en la aplicación.
     "NickName": "Nick del ususario",
     "email": "correo electronico",
     "password": "contraseña"
-    // Otros campos necesarios para la creación del usuario, si los hay
   }
+  ## Endpoint para Obtener Dinero por ID de Usuario
+
+Este endpoint permite obtener la cantidad de Dinero asociada a un usuario específico.
+
+- **URL**
+
+  `/api/GetCashByUserIdAsync`
+
+- **Método**
+
+  `GET`
+
+- **Encabezados de la Solicitud**
+
+  | Encabezado   | Valor            | Descripción                      |
+  | ------------ | ---------------- | -------------------------------- |
+  | Authorization | Bearer \<token> | Token de acceso del usuario      |
+
+- **Respuestas**
+
+  - **Código de Estado 200 OK**
+  
+    Indica que se ha obtenido la cantidad de efectivo asociada al usuario correctamente. Devuelve un objeto JSON que contiene los detalles del efectivo.
+
+    ```json
+    {
+      "cash": 1000 // Ejemplo de cantidad de efectivo
+    }
+    ```
+
+  - **Código de Estado 400 Bad Request**
+  
+    Indica que la obtención del efectivo ha fallado debido a un error en la solicitud o falta de acceso.
+
+    ```json
+    {
+      "message": "Error al obtener el Dinero del usuario"
+    }
+    ```
+## Endpoint para Actualizar Efectivo de Usuario
+
+Este endpoint permite actualizar la cantidad de efectivo asociada a un usuario específico.
+
+- **URL**
+
+  `/api/UpdateUserCashAsync`
+
+- **Método**
+
+  `PATCH`
+
+- **Encabezados de la Solicitud**
+
+  | Encabezado   | Valor            | Descripción                      |
+  | ------------ | ---------------- | -------------------------------- |
+  | Authorization | Bearer \<token> | Token de acceso del usuario      |
+
+- **Parámetros de la Solicitud**
+
+  | Parámetro | Tipo   | Descripción                  |
+  | --------- | ------ | ---------------------------- |
+  | newCash   | int    | Nueva cantidad de efectivo a asignar al usuario |
+
+- **Respuestas**
+
+  - **Código de Estado 200 OK**
+  
+    Indica que la actualización del efectivo del usuario se ha realizado correctamente. Devuelve un objeto JSON que contiene los detalles de la actualización.
+
+    ```json
+    {
+      "message": "Dinero del usuario actualizado exitosamente"
+    }
+    ```
+
+  - **Código de Estado 400 Bad Request**
+  
+    Indica que la actualización del efectivo ha fallado debido a un error en la solicitud o falta de acceso.
+
+    ```json
+    {
+      "message": "Error al actualizar el Dinero del usuario"
+    }
+    ```
+

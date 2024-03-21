@@ -27,5 +27,27 @@ namespace GuayaBytes.Controllers
 
             return BadRequest(result);
         }
+        [Authorize]
+        [HttpGet("GetCashByUserIdAsync")]
+        public async Task<IActionResult> GetCashByUserIdAsync()
+        {
+            var token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+            var result = await _usersAplication.GetCashByUserIdAsync(token);
+            if (result.IsSuccess)
+                return Ok(result);
+
+            return BadRequest(result);
+        }
+        [Authorize]
+        [HttpPatch("UpdateUserCashAsync")]
+        public async Task<IActionResult> UpdateUserCashAsync(int newCash)
+        {
+            var token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+            var result = await _usersAplication.UpdateUserCashAsync(token, newCash);
+            if (result.IsSuccess)
+                return Ok(result);
+
+            return BadRequest(result);
+        }
     }
 }

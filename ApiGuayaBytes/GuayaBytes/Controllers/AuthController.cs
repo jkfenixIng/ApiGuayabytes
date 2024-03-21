@@ -13,11 +13,9 @@ namespace GuayaBytes.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly ILogger<LoginController> _logger;
         private readonly ILoginAplication _loginAplication;
-        public AuthController(ILogger<LoginController> logger, ILoginAplication loginAplication)
+        public AuthController(ILoginAplication loginAplication)
         {
-            _logger = logger;
             _loginAplication = loginAplication;
         }
 

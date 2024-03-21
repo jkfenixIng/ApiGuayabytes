@@ -18,12 +18,14 @@ namespace Application.Main
         private readonly ILoginRepository _loginRepository;
         private readonly IUsersRepository _usersRepository;
         private readonly ILogsRepository _logsRepository;
-        public UsersAplication(ILoginRepository loginRepository, IConfiguration configuration, IUsersRepository usersRepository, ILogsRepository logsRepository)
+        private readonly ILoginAplication _loginAplication;
+       public UsersAplication(ILoginRepository loginRepository, IConfiguration configuration, IUsersRepository usersRepository, ILogsRepository logsRepository, ILoginAplication loginAplication)
         {
             _loginRepository = loginRepository;
             _configuration = configuration;
             _usersRepository = usersRepository;
             _logsRepository = logsRepository;
+            _loginAplication = loginAplication;
         }
         public async Task<ResponseDto<bool>> CreateNewUser(UsersDto usersDto)
         {
@@ -70,8 +72,64 @@ namespace Application.Main
             }
         }
 
-
-
+        public async Task<ResponseDto<int?>> GetCashByUserIdAsync(string token)
+        {
+            var data = new ResponseDto<int?> { Data = 0 };
+            try
+            {
+                var claims = await  _loginAplication.GetClaimsFromTokenAsync(token);
+                var cash = await _usersRepository.GetCashByUserIdAsync(int.Parse(claims[1].Value));
+                if (!cash.HasValue)
+                {
+                    data.IsSuccess = false;
+                    data.Response = "400";
+                    data.Message = "Problema al cargar el Dinero del usuario.";
+                    return data;
+                }
+                data.IsSuccess = true;
+                data.Response = "200";
+                data.Message = "Dinero.";
+                data.Data = cash;
+                return data;
+            }
+            catch (Exception ex)
+            {
+                data.IsSuccess = false;
+                data.Message = "Error: " + ex.Message;
+                data.Response = "500";
+                return data;
+            }
+        }
+        public async Task<ResponseDto<bool>> UpdateUserCashAsync(string token, int? newCash)
+        {
+            var data = new ResponseDto<bool> { Data = false };
+            try
+            {
+                var claims = await _loginAplication.GetClaimsFromTokenAsync(token);
+                var cash = await _usersRepository.GetCashByUserIdAsync(int.Parse(claims[1].Value));
+                var status = await _usersRepository.UpdateUserCashAsync(int.Parse(claims[1].Value), (cash + newCash));
+                if (!status)
+                {
+                    data.IsSuccess = status;
+                    data.Response = "400";
+                    data.Message = "Problema al actualizar el dinero intentelo mas tarde.";
+                    return data;
+                }
+                await _logsRepository.AddLogAsync(1, string.Format("Se actualizo el dinero al usuario {0}", claims[0].Value));
+                data.IsSuccess = true;
+                data.Response = "200";
+                data.Message = "Dinero Actualizado.";
+                data.Data = status;
+                return data;
+            }
+            catch (Exception ex)
+            {
+                data.IsSuccess = false;
+                data.Message = "Error: " + ex.Message;
+                data.Response = "500";
+                return data;
+            }
+        }
 
     }
 }

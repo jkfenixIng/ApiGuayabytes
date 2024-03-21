@@ -159,5 +159,18 @@ namespace Application.Main
                 return data;
             }
         }
+        public async Task<List<Claim>> GetClaimsFromTokenAsync(string token)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var claims = new List<Claim>();
+
+            if (tokenHandler.CanReadToken(token))
+            {
+                var jwtToken = tokenHandler.ReadToken(token) as JwtSecurityToken;
+                claims.AddRange(jwtToken.Claims);
+            }
+
+            return await Task.FromResult(claims);
+        }
     }
 }
