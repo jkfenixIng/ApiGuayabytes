@@ -9,5 +9,6 @@ namespace Domain.Interfaces
         Task<bool> EmailExistsAsync(string email);
         Task<int?> GetCashByUserIdAsync(int userId);
         Task<bool> UpdateUserCashAsync(int userId, int? newCashValue);
+        Task<byte[]?> GetAvatarByUserIdAsync(int userId);
     }
 }

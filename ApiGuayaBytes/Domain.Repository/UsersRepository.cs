@@ -73,5 +73,20 @@ namespace Domain.Repository
                 return false; // Indicar que no se encontró ningún usuario con el Id especificado
             }
         }
+        public async Task<byte[]?> GetAvatarByUserIdAsync(int userId)
+        {
+            // Buscar el elemento activo del usuario en el inventario con la categoría 'ImgPerfil'
+            var image = await Context.UserInventory
+                .Where(ui => ui.UserId == userId && ui.Active)
+                .Join(Context.Items,
+                      ui => ui.IdItem,
+                      i => i.IdItem,
+                      (ui, i) => new { UserInventory = ui, Item = i })
+                .Where(joinResult => joinResult.Item.IdCategory == 1) // Filtrar por la categoría 'ImgPerfil'
+                .Select(joinResult => joinResult.Item.Image)
+                .FirstOrDefaultAsync();
+
+            return image;
+        }
     }
 }

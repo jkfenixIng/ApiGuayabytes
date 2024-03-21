@@ -130,6 +130,60 @@ namespace Application.Main
                 return data;
             }
         }
-
+        public async Task<ResponseDto<string>> GetUserNickNameAsync(string token)
+        {
+            var data = new ResponseDto<string> { Data = string.Empty };
+            try
+            {
+                var claims = await _loginAplication.GetClaimsFromTokenAsync(token);
+                if (!claims.Any())
+                {
+                    data.IsSuccess = false;
+                    data.Response = "400";
+                    data.Message = "Problema al consultar nombre del usuario intentelo mas tarde.";
+                    return data;
+                }
+                data.IsSuccess = true;
+                data.Response = "200";
+                data.Message = "Nombre usuario.";
+                data.Data = claims[0].Value;
+                return data;
+            }
+            catch (Exception ex)
+            {
+                data.IsSuccess = false;
+                data.Message = "Error: " + ex.Message;
+                data.Response = "500";
+                return data;
+            }
+        }
+        public async Task<ResponseDto<byte[]?>> GetAvatarByUserIdAsync(string token)
+        {
+            var data = new ResponseDto<byte[]?> { Data = null };
+            try
+            {
+                var claims = await _loginAplication.GetClaimsFromTokenAsync(token);
+                var avatar = await _usersRepository.GetAvatarByUserIdAsync(int.Parse(claims[1].Value));
+                if (!avatar.Any())
+                {
+                    data.IsSuccess = false;
+                    data.Response = "400";
+                    data.Message = "Problema al consultar avatar del usuario intentelo mas tarde.";
+                    return data;
+                }
+                data.IsSuccess = true;
+                data.Response = "200";
+                data.Message = "Avatar usuario.";
+                data.Data = avatar;
+                return data;
+            }
+            catch (Exception ex)
+            {
+                data.IsSuccess = false;
+                data.Message = "Error: " + ex.Message;
+                data.Response = "500";
+                return data;
+            }
+        }
     }
 }

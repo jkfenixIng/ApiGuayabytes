@@ -20,5 +20,7 @@ namespace Domain.Entities
 
         [Required]
         public int IdItem { get; set; }
+        [Required]
+        public bool Active { get; set; }
     }
 }

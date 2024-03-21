@@ -106,7 +106,7 @@ Este endpoint permite crear un nuevo usuario en la aplicación.
 
 - **URL**
 
-  `/CreateNewUser`
+  `/api/CreateNewUser`
 
 - **Método**
 
@@ -213,6 +213,84 @@ Este endpoint permite actualizar la cantidad de efectivo asociada a un usuario e
     ```json
     {
       "message": "Error al actualizar el Dinero del usuario"
+    }
+    ```
+## Endpoint para Obtener Nickname de Usuario
+
+Este endpoint permite obtener el nombre de usuario asociado al token de acceso proporcionado.
+
+- **URL**
+
+  `/api/GetUserNickNameAsync`
+
+- **Método**
+
+  `GET`
+
+- **Encabezados de la Solicitud**
+
+  | Encabezado   | Valor            | Descripción                      |
+  | ------------ | ---------------- | -------------------------------- |
+  | Authorization | Bearer \<token> | Token de acceso del usuario      |
+
+- **Respuestas**
+
+  - **Código de Estado 200 OK**
+  
+    Indica que se ha obtenido el nombre de usuario correctamente. Devuelve un objeto JSON que contiene el nombre de usuario.
+
+    ```json
+    {
+      "nickname": "nombre_de_usuario"
+    }
+    ```
+
+  - **Código de Estado 400 Bad Request**
+  
+    Indica que la obtención del nombre de usuario ha fallado debido a un error en la solicitud o falta de acceso.
+
+    ```json
+    {
+      "message": "Error al obtener el nombre de usuario"
+    }
+    ```
+## Endpoint para Obtener Avatar por ID de Usuario
+
+Este endpoint permite obtener el avatar asociado a un usuario específico.
+
+- **URL**
+
+  `/api/GetAvatarByUserIdAsync`
+
+- **Método**
+
+  `GET`
+
+- **Encabezados de la Solicitud**
+
+  | Encabezado   | Valor            | Descripción                      |
+  | ------------ | ---------------- | -------------------------------- |
+  | Authorization | Bearer \<token> | Token de acceso del usuario      |
+
+- **Respuestas**
+
+  - **Código de Estado 200 OK**
+  
+    Indica que se ha obtenido el avatar del usuario correctamente. Devuelve un objeto JSON que contiene el enlace al avatar.
+
+    ```json
+    {
+      "avatarUrl": "enlace_al_avatar"
+    }
+    ```
+
+  - **Código de Estado 400 Bad Request**
+  
+    Indica que la obtención del avatar ha fallado debido a un error en la solicitud o falta de acceso.
+
+    ```json
+    {
+      "message": "Error al obtener el avatar del usuario"
     }
     ```
 

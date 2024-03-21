@@ -49,5 +49,28 @@ namespace GuayaBytes.Controllers
 
             return BadRequest(result);
         }
+
+        [Authorize]
+        [HttpGet("GetUserNickNameAsync")]
+        public async Task<IActionResult> GetUserNickNameAsync()
+        {
+            var token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+            var result = await _usersAplication.GetUserNickNameAsync(token);
+            if (result.IsSuccess)
+                return Ok(result);
+
+            return BadRequest(result);
+        }
+        [Authorize]
+        [HttpGet("GetAvatarByUserIdAsync")]
+        public async Task<IActionResult> GetAvatarByUserIdAsync()
+        {
+            var token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+            var result = await _usersAplication.GetAvatarByUserIdAsync(token);
+            if (result.IsSuccess)
+                return Ok(result);
+
+            return BadRequest(result);
+        }
     }
 }
