@@ -45,5 +45,33 @@ namespace Domain.Repository
                 return false; // Indicar que hubo un error al crear el usuario
             }
         }
+        public async Task<int?> GetCashByUserIdAsync(int userId)
+        {
+            // Buscar al usuario por su Id y obtener su campo Cash
+            var user = await Context.Users.FirstOrDefaultAsync(u => u.IdUser == userId);
+
+            // Si se encontró al usuario, devolver su Cash, de lo contrario, devolver null
+            return user?.Cash;
+        }
+        public async Task<bool> UpdateUserCashAsync(int userId, int? newCashValue)
+        {
+            // Buscar al usuario por su Id
+            var user = await Context.Users.FirstOrDefaultAsync(u => u.IdUser == userId);
+
+            if (user != null)
+            {
+                // Actualizar el campo Cash
+                user.Cash = newCashValue;
+
+                // Guardar los cambios en la base de datos
+                await Context.SaveChangesAsync();
+
+                return true; // Indicar que se actualizó el Cash exitosamente
+            }
+            else
+            {
+                return false; // Indicar que no se encontró ningún usuario con el Id especificado
+            }
+        }
     }
 }
