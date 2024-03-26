@@ -16,11 +16,17 @@ namespace Domain.Entities
         public int IdUserInventory { get; set; }
 
         [Required]
-        public int UserId { get; set; }
+        public int IdUser { get; set; }
 
         [Required]
         public int IdItem { get; set; }
         [Required]
         public bool Active { get; set; }
+        // Relaciones de clave externa
+        [ForeignKey("IdUser")]
+        public Users User { get; set; }
+
+        [ForeignKey("IdItem")]
+        public Items Item { get; set; }
     }
 }

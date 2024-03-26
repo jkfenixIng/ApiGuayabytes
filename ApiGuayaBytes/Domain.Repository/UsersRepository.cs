@@ -77,7 +77,7 @@ namespace Domain.Repository
         {
             // Buscar el elemento activo del usuario en el inventario con la categoría 'ImgPerfil'
             var image = await Context.UserInventory
-                .Where(ui => ui.UserId == userId && ui.Active)
+                .Where(ui => ui.IdUser == userId && ui.Active)
                 .Join(Context.Items,
                       ui => ui.IdItem,
                       i => i.IdItem,

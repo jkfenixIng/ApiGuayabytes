@@ -5,7 +5,7 @@ using System.Net.Http;
 
 namespace Application.Interfaces
 {
-    public interface IUsersAplication
+    public interface IUsersApplication
     {
         Task<ResponseDto<bool>> CreateNewUser(UsersDto usersDto);
         Task<ResponseDto<int?>> GetCashByUserIdAsync(string token);

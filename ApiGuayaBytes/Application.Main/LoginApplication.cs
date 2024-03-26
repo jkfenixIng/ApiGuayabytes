@@ -11,12 +11,12 @@ using Microsoft.AspNetCore.Http;
 
 namespace Application.Main
 {
-    public class LoginAplication : ILoginAplication
+    public class LoginApplication : ILoginApplication
     {
         private readonly IConfiguration _configuration;
         private readonly ILoginRepository _loginRepository;
         private readonly IUsersRepository _usersRepository;
-        public LoginAplication(ILoginRepository loginRepository, IConfiguration configuration, IUsersRepository usersRepository)
+        public LoginApplication(ILoginRepository loginRepository, IConfiguration configuration, IUsersRepository usersRepository)
         {
             _loginRepository = loginRepository;
             _configuration = configuration;
