@@ -5,7 +5,7 @@ using System.Security.Claims;
 
 namespace Application.Interfaces
 {
-    public interface ILoginAplication
+    public interface ILoginApplication
     {
         Task<ResponseDto<DataLoginDto>> GetLogin(string NickName, string paswword);
         Task<ResponseDto<string>> RefreshTokenAsync(HttpContext httpContext);
