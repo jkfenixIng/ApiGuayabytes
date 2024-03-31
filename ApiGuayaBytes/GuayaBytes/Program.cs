@@ -79,6 +79,8 @@ builder.Services.AddScoped<IItemsApplication, ItemsApplication>();
 builder.Services.AddScoped<IItemsRepository, ItemsRepository>();
 builder.Services.AddScoped<IInventoryApplication, InventoryApplication>();
 builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
+builder.Services.AddScoped<IGamesApplication, GamesApplication>();
+builder.Services.AddScoped<IGamesRepository, GamesRepository>();
 
 var app = builder.Build();
 

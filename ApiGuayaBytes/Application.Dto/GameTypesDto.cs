@@ -8,16 +8,14 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public class Games
+    public class GameTypesDto
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Column("IdGame")]
-        public int IdGame { get; set; }
-
-        [Required]
         public int IdGameType { get; set; }
-        [Required]
-        public int IdGameMode { get; set; }
+        public string GameType { get; set; }
+        public int NumberOfDices { get; set; }
+        public int StartingAmount { get; set; }
+        public int AmountPlayers { get; set; }
+        public int MinimumBet { get; set; }
+
     }
 }
