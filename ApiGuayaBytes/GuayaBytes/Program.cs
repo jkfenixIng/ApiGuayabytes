@@ -4,6 +4,7 @@ using Domain.Data;
 using Domain.Interfaces;
 using Domain.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -64,6 +65,7 @@ builder.Services.AddSwaggerGen(c =>
         { securitySchema, new[] { "Bearer" }}
     });
 });
+
 
 // Configurar DbContext
 builder.Services.AddDbContext<DataContext>(options =>
