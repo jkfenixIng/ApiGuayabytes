@@ -107,6 +107,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Guayabytes v1.0.0");
+    c.RoutePrefix = string.Empty; // Para que Swagger esté en la raíz
+});
 
 app.UseHttpsRedirection();
 app.UseAuthentication(); // Agregado middleware de autenticación
