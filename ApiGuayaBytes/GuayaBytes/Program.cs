@@ -1,5 +1,6 @@
 using Application.Interfaces;
 using Application.Main;
+using Braintree;
 using Domain.Data;
 using Domain.Interfaces;
 using Domain.Repository;
@@ -71,6 +72,14 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
+// Agregar Braintree como un servicio
+builder.Services.AddSingleton<BraintreeGateway>(new BraintreeGateway(
+    builder.Configuration["Braintree:Environment"],
+    builder.Configuration["Braintree:MerchantId"],
+    builder.Configuration["Braintree:PublicKey"],
+    builder.Configuration["Braintree:PrivateKey"]
+));
+
 // Registrar servicios
 builder.Services.AddScoped<ILoginApplication, LoginApplication>();
 builder.Services.AddScoped<ILoginRepository, LoginRepository>();
@@ -83,7 +92,7 @@ builder.Services.AddScoped<IInventoryApplication, InventoryApplication>();
 builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
 builder.Services.AddScoped<IGamesApplication, GamesApplication>();
 builder.Services.AddScoped<IGamesRepository, GamesRepository>();
-
+builder.Services.AddScoped<IPaymentsApplication, PaymentsApplication>();
 var app = builder.Build();
 
 // Configure CORS
