@@ -34,7 +34,7 @@ namespace Domain.Repository
                     Password = userDto.Password,
                 };
 
-                Context.Users.Add(newUser);
+                Context.Users.Add(newUser); 
                 await Context.SaveChangesAsync();
 
                 return true; // Indicar que el usuario se creó exitosamente
