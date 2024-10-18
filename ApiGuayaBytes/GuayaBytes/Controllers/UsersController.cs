@@ -39,7 +39,7 @@ namespace GuayaBytes.Controllers
             return BadRequest(result);
         }
         [Authorize]
-        [HttpPatch("UpdateUserCashAsync")]
+        [HttpPut("UpdateUserCashAsync")]
         public async Task<IActionResult> UpdateUserCashAsync(int newCash)
         {
             var token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
